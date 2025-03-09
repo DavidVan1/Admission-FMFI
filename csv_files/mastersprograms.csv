@@ -1,0 +1,31 @@
+Astronómia a astrofyzika,mFAA,fyzika,fyzika,-1,-1,-1,10
+Biomedicínska fyzika,mFBM,fyzika,biomedicínska fyzika,-1,-1,-1,30
+Environmentálna fyzika a obnoviteľné zdroje energie a meteorológia a klimatológia,mEOM,fyzika,fyzika,-1,-1,-1,20
+Fyzika plazmy,mFFP,fyzika,fyzika,-1,-1,-1,10
+Fyzika tuhých látok,mFTL,fyzika,fyzika,-1,-1,-1,10
+Jadrová a subjadrová fyzika,mFJF,fyzika,fyzika,-1,-1,-1,10
+Optika a lasery a optická spektroskopia,mFOS,fyzika,fyzika,-1,-1,-1,10
+Teoretická fyzika,mFTF,fyzika,fyzika,-1,-1,-1,10
+Aplikovaná informatika,mAIN,informatika,informatika,-1,-1,-1,120
+Aplikovaná informatika konverzný program,mAIN/k,informatika,matematika;fyzika;učiteľstvo;informatika;bioinformatika;dátová veda,-1,-1,-1,120
+Informatika,mINF,informatika,informatika,1.75,15,1.75,50
+Informatika konverzný program,mINF/k,informatika,matematika;fyzika;učiteľstvo;aplikovaná informatika;bioinformatika;dátová veda,-1,-1,-1,50
+Cognitive science (kognitívna veda),mIKV,informatika,informatika,-1,15,-1,15
+Ekonomicko-finančná matematika a modelovanie,mEMM,matematika,matematika,2,-1,1.5,45
+Manažérska matematika,mMMN,matematika,matematika;manažérska matematika,-1,-1,-1,50
+Matematika,mMAT,matematika,matematika,1.5,15,1.5,20
+Počítačová grafika a geometria,mMPG,matematika,matematika;informatika,-1,-1,-1,25
+Počítačová grafika a geometria konverzný program,mMPG/k,matematika,fyzika;učiteľstvo,-1,-1,-1,25
+Pravdepodobnosť a matematická štatistika,mPMS,matematika,matematika,2.25,-1,1.7,15
+Učiteľstvo fyziky a informatiky,muFYIN,učiteľstvo,učiteľstvo fyziky a informatiky,-1,-1,-1,10
+Učiteľstvo fyziky a informatiky konverzný program,muFYIN/k,učiteľstvo,matematika;fyzika;informatika,-1,-1,-1,10
+Učiteľstvo informatiky a anglického jazyka a literatúry,muINAN,učiteľstvo,učiteľstvo informatiky a anglického jazyka a literatúry,-1,-1,-1,5
+Učiteľstvo informatiky a biológie,muINBI,učiteľstvo,učiteľstvo informatiky a biológie,-1,-1,-1,10
+Učiteľstvo informatiky a geografie,muINGE,učiteľstvo,učiteľstvo informatiky a geografie,-1,-1,-1,10
+Učiteľstvo deskriptívnej geometrie a matematiky,muMADG,učiteľstvo,učiteľstvo deskriptívnej geometrie a matematiky,-1,-1,-1,10
+Učiteľstvo deskriptívnej geometrie a matematiky konverzný program,muMADG/k,učiteľstvo,matematika;fyzika;informatika,-1,-1,-1,10
+Učiteľstvo matematiky a fyziky,muMAFY,učiteľstvo,učiteľstvo matematiky a fyziky,-1,-1,-1,20
+Učiteľstvo matematiky a fyziky konverzný program,muMAFY/k,učiteľstvo,matematika;fyzika;informatika,-1,-1,-1,20
+Učiteľstvo matematiky a informatiky,muMAIN,učiteľstvo,učiteľstvo matematiky a informatiky,-1,-1,-1,20
+Učiteľstvo matematiky a informatiky konverzný program,muMAIN/k,učiteľstvo,matematika;fyzika;informatika,-1,-1,-1,20
+Učiteľstvo matematiky a telesnej výchovy,muMATV,učiteľstvo,učiteľstvo matematiky a telesnej výchovy,-1,-1,-1,10

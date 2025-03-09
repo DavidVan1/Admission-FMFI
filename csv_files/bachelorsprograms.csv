@@ -1,0 +1,27 @@
+Biomedicínska fyzika,BMF,fyzika,matematika;fyzika;biológia;chémia,60,20,2
+Fyzika,FYZ,fyzika,matematika;fyzika,60,100,2
+Fyzika konverzný program,FYZ/k,fyzika,matematika;fyzika,50,100,2
+Obnoviteľné zdroje energie a environmentálna fyzika,OZE,fyzika,matematika;fyzika,60,20,2
+Obnoviteľné zdroje energie a environmentálna fyzika konverzný program,OZE/k,fyzika,matematika;fyzika,50,20,2
+Technická fyzika,TEF,fyzika,matematika;fyzika,60,20,2
+Technická fyzika konverzný program,TEF/k,fyzika,matematika;fyzika,40,20,2
+Aplikovaná informatika,AIN,informatika,matematika;informatika,50,200,1
+Bioinformatika,BIN,informatika,matematika;informatika;biológia;chémia,70,15,1
+Bioinformatika konverzný program,BIN/k,informatika,matematika;informatika;biológia;chémia,40,15,2
+Dátová veda,DAV,informatika,matematika;informatika,80,30,1
+Dátová veda konverzný program,DAV/k,informatika,matematika;informatika,50,30,2
+Informatika,INF,informatika,matematika;informatika,60,100,1
+Ekonomická a finančná matematika,EFM,matematika,matematika,80,60,1
+Manažérska matematika,MMN,matematika,matematika,70,60,2
+Matematika,MAT,matematika,matematika,80,40,1
+Poistná matematika,PMA,matematika,matematika,70,20,2
+Učiteľstvo fyziky a informatiky,upFYIN,učiteľstvo,matematika;fyzika;informatika,50,20,-1
+Učiteľstvo fyziky a biológie,upFYBI,učiteľstvo,matematika;fyzika,50,20,-1
+Učiteľstvo informatiky a anglického jazyka a literatúry,upINAN,učiteľstvo,matematika;informatika,50,5,-1
+Učiteľstvo informatiky a biológie,upINBI,učiteľstvo,matematika;informatika,50,20,-1
+Učiteľstvo informatiky a geografie,upINGE,učiteľstvo,matematika;informatika,50,10,-1
+Učiteľstvo informatiky a chémie,upINCH,učiteľstvo,matematika;informatika,50,10,-1
+Učiteľstvo deskriptívnej geometrie a matematiky,upMADG,učiteľstvo,matematika,50,20,-1
+Učiteľstvo matematiky a fyziky,upMAFY,učiteľstvo,matematika;fyzika,50,30,-1
+Učiteľstvo matematiky a informatiky,upMAIN,učiteľstvo,matematika;informatika,50,20,-1
+Učiteľstvo matematiky a telesnej výchovy,upMATV,učiteľstvo,matematika,50,20,-1

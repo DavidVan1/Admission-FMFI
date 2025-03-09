@@ -1,0 +1,3 @@
+1,Peter Novak,85.5,matematika:1 1 2 1;fyzika:1 1 1 1,matematika;fyzika,MAT;EFM;PMA
+3,Peter Kováč,40,matematika:1 3 2 1;fyzika:1 4 1 1,matematika;fyzika,MAT;EFM;PMA
+2,Maria Kralova,92.3,matematika:2 1 1 2;informatika:1 2 1 1,matematika;informatika,DAV;BIN;INF

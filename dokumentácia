@@ -1,0 +1,382 @@
+
+ // Trieda Studyprogram vytvára nový študijný program
+class StudyProgram {
+public:
+    std::string name; // názov programu
+    std::string abbreviation; // skratka
+    std::string fieldOfStudy; // oblasť programu
+    int numberOfPlannedAdmissions; // plánový počet prijatých študentov
+    StudyProgram()
+    : name(EMPTY_STRING), abbreviation(EMPTY_STRING), fieldOfStudy(EMPTY_STRING), numberOfPlannedAdmissions(DUMMY_NUM) {}
+    StudyProgram(std::string name, std::string abbreviation, std::string fieldOfStudy, int numberOfPlannedAdmissions)
+        : name(std::move(name)),
+          abbreviation(std::move(abbreviation)),
+          fieldOfStudy(std::move(fieldOfStudy)),
+          numberOfPlannedAdmissions(numberOfPlannedAdmissions){}
+    virtual ~StudyProgram() = default;
+};
+
+// Vytvára bakalársky študijný program
+class BachelorsProgram: public StudyProgram {
+public:
+    EducationalLevel educationalLevel = Bachelor;
+    std::vector<std::string> profileSubjects; // profilové predmety, z ktorých uchádzač doloží známky
+    float minimumPercentileOfMathExam; // minimálny percentil z autorizovanej skúšky z matematiky
+    int maxGrade; // najhoršia možná známka z profilových premetov
+    BachelorsProgram();
+    BachelorsProgram(std::string name,
+                      std::string abbreviation,
+                      std::string fieldOfStudy,
+                      std::vector<std::string> profileSubjects,
+                      float minimumPercentileOfMathExam,
+                      int numberOfPlannedAdmissions,
+                      int maxGrade);
+};
+
+// vytvára magisterský študijný program
+class MastersProgram: public StudyProgram {
+public:
+    EducationalLevel educationalLevel = Master;
+    std::vector<std::string> requiredBachelorsProgram; // program, ktorý by mal mať uchádzač vyštudovaný
+    float maxGPA; // najhorší priemer, aký by mal uchádzač mať
+    float minimumEntranceExamScore; // minimum bodov z prijímacích testov
+    float maximumAverageOfStateExams; // najhorší priemer aký by mal mať uchádzač zo štátnych skúšok
+    MastersProgram();
+    MastersProgram(std::string name,
+                   std::string abbreviation,
+                   std::string fieldOfStudy,
+                   std::vector<std::string> requiredBachelorsProgram,
+                   float maxGPA,
+                   float minimumEntranceExamScore,
+                   float maximumAverageOfStateExams,
+                   int numberOfPlannedAdmissions);
+
+};
+
+
+
+
+// Trieda StudyPrograms v podstate rieši administratívu programov
+class StudyPrograms {
+  public:
+    std::vector<BachelorsProgram> bachelorsPrograms;
+    std::vector<MastersProgram> mastersPrograms;
+	
+	// vracia referenciu programu podľa jej skratky
+    template <typename T>
+    static T* getStudyProgram(std::vector<T>& programs, const std::string& abbreviation) {
+        for (auto& program : programs) {
+            if (program.abbreviation == abbreviation) {
+                return &program;
+            }
+        }
+        return nullptr;
+    }
+	
+	// zmazanie programu podľa skratky, ak chceme vymazať aj konverzný nastavíme removeConversionProgram na true
+    template <typename T>
+    static bool removeStudyProgram(std::vector<T> &programs, const std::string& abbreviation, bool removeConversionProgram = true) {
+
+	// mení počet plánovaných študentov
+    template <typename T>
+    static bool changeNumberOfPlannedAdmissions(std::vector<T> &programs, const std::string &abbreviation, int newNumber); 
+
+	// getter na plánovaný počet študentov podľa skratky
+    template <typename T>
+    static int getNumberOfPlannedAdmissions(std::vector<T> &programs, const std::string &abbreviation); 
+        
+};
+
+
+// Trieda BachelorsPrograms robí administratívu bakalárskym programom
+class BachelorsPrograms: public StudyPrograms {
+  public:
+  	// načítava programy zo súboru, v tvare
+  	// meno,skratka,oblasť,profilovýPredmet1;profilovýPredmet2,minimálnyPercentil,početPlánovanýchPrijatýchŠtudentov,najhoršiaMožnáZnámkaZProfilovýchPredmetov
+    bool loadPrograms(const std::string &filename);
+    	
+    	// ukladá programy v rovnakom tvare ako načítava
+    bool savePrograms(const std::string &filename);
+    
+    	// pridáva nový štúdijný program
+    bool addStudyProgram(const std::string &name, const std::string &abbreviation, const std::string &field,
+                         const std::vector<std::string> &profileSubjects=EMPTY_VECTOR, float percentile=-1, int numberOfPlannedAdmissions=1, int maxGrade=1);
+                         
+      	// zmaže bakalársky študijný program, ak chceme vymazať aj konverzný program nastavíme removeConversionProgram na true
+    bool removeStudyProgram(const std::string &abbreviation, bool removeConversionProgram = true) {
+        return StudyPrograms::removeStudyProgram<BachelorsProgram>(bachelorsPrograms, abbreviation, removeConversionProgram);
+    }
+    	// zmení počet plánovaných prijatých uchádzačov
+    bool changeNumberOfPlannedAdmissions(const std::string &abbreviation, int newNumber) {
+        return StudyPrograms::changeNumberOfPlannedAdmissions<BachelorsProgram>(bachelorsPrograms, abbreviation, newNumber);
+    }
+    
+    	// vracia referenciu na bakalársky program
+    BachelorsProgram *getStudyProgram(const std::string &abbreviation) {
+        return StudyPrograms::getStudyProgram(bachelorsPrograms, abbreviation);
+    }
+    	// pridáva profilový predmet
+    bool addProfileSubject(const std::string &abbreviation, const std::string &subject);
+    
+    	// zmaže profilový predmet
+    bool removeProfileSubject(const std::string &abbreviation, const std::string &subject);
+    
+    	// zmení minimálny percentil na prijatie
+    bool changeRequiredPercentile(const std::string &abbreviation, float newPercentile);
+    
+    	// getter na plánovaný počet prijatých uchádzačov 
+    int getNumberOfPlannedAdmissions(const std::string &abbreviation) {
+        return StudyPrograms::getNumberOfPlannedAdmissions<BachelorsProgram>(bachelorsPrograms, abbreviation);
+    }
+    	
+    	// getter na minimálny percentil na prijatie
+    float getMinimumPercentileOfMathExam(const std::string &abbreviation);
+    std::vector<std::string> getProfileSubjects(const std::string &abbreviation);
+};
+
+
+// Trieda MasterPrograms robí administratívu magisterským programom
+class MastersPrograms: public StudyPrograms {
+    public:
+    		// načítava magisterské programy zo súboru v tvare:
+    		// názov,skratka,oblasť,absolvovanýŠtudijnýProgram,priemer,bodyZPrijímacejSkúšky,priemerZoŠtátnychSkúšok,početPlánovanýchPrijatýchUchádzačov
+        bool loadPrograms(const std::string &filename);
+        	
+        	// ukladá v rovnakom tvare ako načíta
+        bool savePrograms(const std::string &filename);
+        
+        	// pridá nový magisterský program
+        bool addStudyProgram(const std::string &name, const std::string &abbreviation, const std::string &field,
+                         const std::vector<std::string> &programs=EMPTY_VECTOR, float gpa=-1, float score=-1, float average=-1,int numberOfPlannedAdmissions=1);
+                         
+                // zmaže magisterský program, ak chceme vymazať aj konverzný program nastavíme removeConversionProgram na true
+        bool removeStudyProgram(const std::string &abbreviation, bool removeConversionProgram = true) {
+            return StudyPrograms::removeStudyProgram(mastersPrograms, abbreviation, removeConversionProgram);
+        }
+        	// mení počet plánovaných prijatých uchádzačov
+        bool changeNumberOfPlannedAdmissions(const std::string &abbreviation, int newNumber) {
+            return StudyPrograms::changeNumberOfPlannedAdmissions<MastersProgram>(mastersPrograms, abbreviation, newNumber);
+        }
+        
+        	// vracia referenciu na magisterský študijný program
+        MastersProgram *getStudyProgram(const std::string &abbreviation) {
+            return StudyPrograms::getStudyProgram(mastersPrograms, abbreviation);
+        }
+        	// mení najhorší možný vážený priemer
+        bool changeMaxGPA(const std::string &abbreviation, float newGPA);
+        
+        	// mení minimálny počet bodov na prijatie
+        bool changeMinimumEntranceExamScore(const std::string &abbreviation, float newEntrance);
+        
+        	// mení najhorší možný priemer zo štátnych skúšok
+        bool changeMaximumAverageOfStateExams(const std::string &abbreviation, float newMaximumAverage);
+        
+        	// getter na plánovaný počet prijatých uchádzačov
+        int getNumberOfPlannedAdmissions(const std::string &abbreviation) {
+            return StudyPrograms::getNumberOfPlannedAdmissions<MastersProgram>(mastersPrograms, abbreviation);
+        }
+        	// getter na najhorší možný vážený priemer 
+        float getGPA(const std::string &abbreviation);
+        	
+        	// getter na minimálny počet bodov z prijímacieho testu
+        float getMinimumEntranceExamScore(const std::string &abbreviation);
+        
+        	// getter na najhorší možný priemer zo štátnych skúšok
+        float getMaximumAverageOfStateExams(const std::string &abbreviation);
+        
+        	// getter na programy, ktoré treba absolvovať
+        std::vector<std::string> getRequiredBachelorsProgram(const std::string &abbreviation);
+};
+
+
+
+// Trieda Applicant vytvára nového uchádzača
+// statusy uchádzača môžu byť: PENDING - ak je stále v procese prijímania, ACCEPTED - ak je prijatý, REJECTED_DUE_CRITERIA - ak nesplnil požiadavky na prijatie, REJECTED_DUE_CAPACITY - ak splnil
+// požiadavky, ale nie je dostatok miesta
+class Applicant {
+    string uniqueID; // id uchádzača
+    string name;	// meno uchádzača
+    float totalScore = DUMMY_NUM;	// jeho finálne skóre, podľa ktorého bude hodnotený
+    ApplicantStatus status = PENDING;	
+    vector<string> preferences;		// programy, na ktoré sa uchádza
+    string finalAdmission = EMPTY_STRING;	// skratka programu, na ktorý je prijatý po hodnotení alebo prázdny reťazec ak nie je prijatý
+ public:
+    Applicant() : uniqueID(EMPTY_STRING), name(EMPTY_STRING), preferences(EMPTY_VECTOR) {};
+    Applicant(string uniqueID, string name, vector<string> preferences)
+             : uniqueID(move(uniqueID)), name(move(name)), preferences(move(preferences)) {};
+    virtual ~Applicant() = default;
+	
+	// gettery
+    [[nodiscard]] ApplicantStatus getStatus() const { return status; }
+    [[nodiscard]] const string& getUniqueID() const { return uniqueID; }
+    [[nodiscard]] const string& getName() const { return name; }
+    [[nodiscard]] float getTotalScore() const { return totalScore; }
+    [[nodiscard]] string getFinalAdmission() const { return finalAdmission; }
+    
+    	// settery
+    void setStatus(ApplicantStatus status) { this->status = status; }
+    void setTotalScore(float totalScore) { this->totalScore = totalScore; }
+    [[nodiscard]] vector<string> getPreferences() const { return preferences; }
+    void setFinalAdmission(const string &finalAdmission) { this->finalAdmission = finalAdmission; }
+};
+
+
+class BachelorApplicant : public Applicant {
+    float percentileOfMathExam;
+    map <string, vector<int>> grades;
+    vector<string> stateExamSubjects;
+ public:
+    BachelorApplicant();
+    BachelorApplicant(string uniqueID, string name, vector<string> preferences,float percentileOfMathExam, map <string, vector<int>> grades, vector<string> stateExamSubjects);
+    
+    	// gettery
+    [[nodiscard]] float getPercentileOfMathExam() const { return percentileOfMathExam; }
+    [[nodiscard]] map <string, vector<int>> getGrades() const { return grades; }
+    [[nodiscard]] vector<string> getStateExamSubjects() const { return stateExamSubjects; }
+    
+    	// operátor == ak je uchádzač rovnaký
+    bool operator==(const BachelorApplicant& other) const {
+        return (getUniqueID() == other.getUniqueID()) && (getName() == other.getName());
+    }
+};
+
+
+class MasterApplicant : public Applicant {
+    string completedBachelorProgram;
+    float GPA;
+    float entranceExamScore;
+    float averageOfStateExams;
+ public:
+    MasterApplicant();
+    MasterApplicant(string uniqueID, string name, vector<string> preferences, string completedBachelorProgram,
+                    float GPA, float entranceExamScore, float averageOfStateExams);
+    	//gettery
+    [[nodiscard]] float getGPA() const { return GPA; }
+    [[nodiscard]] float getEntranceExamScore() const { return entranceExamScore; }
+    [[nodiscard]] float getAverageOfStateExams() const { return averageOfStateExams; }
+    const string& getCompletedBachelorProgram() { return completedBachelorProgram; }
+};
+
+
+
+
+// Trieda Applicants zariaďuje administratívu uchádzačov
+class Applicants {
+  public:
+    vector<BachelorApplicant> bachelorApplicants;
+    vector<MasterApplicant> masterApplicants;
+
+	// exportuje prijatých uchádzačov v tvare:
+	// id,meno,programNaKtorýJePrijatý
+  template <typename Applicants>
+  void exportAcceptedApplicants(const string &fileName, vector<Applicants> &applicants) ;
+    
+    	// vracia referenciu na uchádzača
+  template <typename Applicants>
+  Applicants* findApplicant(const string &id, vector<Applicants> &applicants);
+
+	// tento kus kódu vygeneroval ChatGPT, lebo keď som sa snažil iterovať cez vektor preferencií, tak som nevedel pracovať s posledným prvkom
+  static inline std::string trim(const std::string &s);
+
+};
+
+class BachelorApplicants : public Applicants {
+  public:
+  	// načíta uchádzačov v tvare:
+  	// id,meno,percentil,predmet1: známka1 známka2 známka3 známka4;predmet1: známka1 známka2 známka3 známka4,maturitnýPredmet1;maturitnýPredmet2,skratkaProgramu1;skratkaProgramu2;skratkaProgramu3
+	// uchádzač má možnosť sa uchádzať na maximálne 3 programy
+    bool loadBachelorApplicants(const string &filename);
+    
+    	// výpis uchádzačov
+    static void printApplicants(const vector<BachelorApplicant> &applicants);
+    
+    	// exportuje prijatých uchádzačov na bakalárske štúdium v tvare:
+    	// id,meno,programNaKtorýJePrijatý
+    void exportBachelorApplicants(const string &filename) { exportAcceptedApplicants(filename, bachelorApplicants); }
+    BachelorApplicant* findBachelorApplicant(const string &id) { return findApplicant(id, bachelorApplicants); }
+};
+
+class MasterApplicants : public Applicants {
+  public:
+  
+  	// načíta uchádzačov v tvare:
+  	// id,meno,absolvovanýBakalárskyProgram,váženýPriemer,bodyZPrijímaciehoTestu,priemerZoŠtátnychSkúšok,skratkaProgramu1;skratkaProgramu2;skratkaProgramu3
+  	// ak neabsolvoval prijímací test tak tam bude -1, uchádzač má možnosť sa uchádzať na maximálne 3 programy
+    bool loadMasterApplicants(const string &filename);
+    
+    	// exportuje prijatých uchádzačov na magisterské študium v tvare:
+    	// id,meno,programNaKtorýJePrijatý
+    void exportMasterApplicants(const string &filename) { exportAcceptedApplicants(filename, masterApplicants); }
+    MasterApplicant* findMasterApplicant(const string &id) { return findApplicant(id, masterApplicants); }
+};
+
+
+
+
+// Trieda Evaluator hodnotí uchádzačov
+class Evaluator {
+  public:
+
+    float gpaWeightBachelor = 0.3; // váha priemeru známok zo strednej školy
+    float percentileWeight = 0.7; // váha percentilu z autorizovanej skúšky z matematiky
+
+    float gpaWeightMaster = 0.7; // váha priemeru z bakalárskeho štúdia
+    float averageWeight = 0.9;	// váha priemeru zo štátnych skúšok
+
+	// obsahuje id uchádzača, študijné programy na ktoré sa uchádza a k nim true/false podľa toho či splňuje kritéria
+    unordered_map<string, unordered_map<string, bool>> programApplicants;
+
+	// settery
+    void changeGpaWeightBachelor(const float &gpaWeightBachelor) { this->gpaWeightBachelor = gpaWeightBachelor; }
+    void changePercentileWeight(const float &percentileWeight) { this->percentileWeight = percentileWeight; }
+    void changeGpaWeightMaster(const float &gpaWeightMaster) { this->gpaWeightMaster = gpaWeightMaster; }
+    void changeAverageWeight(const float &averageWeight) { this->averageWeight = averageWeight; }
+
+	// funkcie na hodnotenie kritérií
+    static bool checkGrades(const vector<string> &profileSubjects, const int &maxGrade, const map <string, vector<int>> &grades);
+    static bool checkPercentile(const float &percentile, const float &requiredPercentile);
+    static bool checkSubjects(const vector<string> &subjects, const vector<string> &profileSubjects);
+    static bool checkGPA(const float &gpa, const float &requiredGPA);
+    static bool checkEntranceExamScore(const float &entranceExamScore, const float &requiredEntranceExamScore);
+    static bool checkAverageOfStateExams(const float &averageOfStateExams, const float &requiredAverageOfStateExams);
+    static bool checkOnlyRequiresCompleted(const float &gpa, const float &entranceExamScore, const float &averageOfStateExams);
+    	// ak na študijný program stačí len absolvovať bakalársky program
+    static bool checkCompletedProgramme(const string &programme, const vector<string> &requiredBachelorsProgram);
+    static bool checkCriteria(const float &gpa, const float &requiredGPA, const float &entranceExamScore, const float &requiredEntranceExamScore,
+        const float &averageOfStateExams, const float &requiredAverageOfStateExams,
+        const string &programme, const vector<string> &requiredBachelorsProgram);
+
+	// vypočíta skóre uchádzača
+    float evaluateBachelorApplicant(const BachelorApplicant& applicant);
+    float evaluateMasterApplicant(const MasterApplicant& applicant);
+	
+	// vyhodnocuje uchádzača podľa kritérií
+	// ak nesplňuje kritéria nastaví totalScore na -1 a status na REJECTED_DUE_CRITERIA
+    void evaluateBachelorApplicants(vector<BachelorApplicant> &applicants, vector<BachelorsProgram> &bachelorsPrograms);
+    void evaluateMasterApplicants(vector<MasterApplicant> &applicants, vector<MastersProgram> &mastersPrograms, vector<BachelorsProgram> &bachelorsPrograms);
+	
+	// triedi uchádzačov poďla skóre
+    template <typename T>
+    static void sortApplicantsByTotalScore(vector<T>& applicants) {
+            std::sort(applicants.begin(), applicants.end(),
+              [](const Applicant& a, const Applicant& b) {
+                  return a.getTotalScore() > b.getTotalScore();
+              });
+    }
+
+};
+
+
+
+// Trieda Admit prijíma uchádzačov a nastavuje im ich finálne programy
+class Admit {
+ public:
+ 	
+ 	// funckia na prijatie uchádzačov
+ 	// ak splnili kritéria a je dostatok miesta, tak funkcia nastaví status na ACCEPTED a nastaví finalAdmission na skratku programu
+ 	// inak nastaví status na REJECTED_DUE_CAPACITY
+    template <typename Applicant, typename Program>
+    static void admitApplicants(vector<Applicant> &applicants,
+                                vector<Program> &programs, unordered_map<string,
+                                unordered_map<string, bool>> &programApplicants);
+};
